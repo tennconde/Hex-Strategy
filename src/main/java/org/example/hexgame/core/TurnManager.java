@@ -3,8 +3,8 @@ package org.example.hexgame.core;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
-import org.example.hexgame.Entities.HexTile;
-import org.example.hexgame.Entities.Unit;
+import org.example.hexgame.core.HexTile;
+import org.example.hexgame.entities.Unit;
 
 import java.util.List;
 import java.util.Map;
@@ -237,21 +237,18 @@ public class TurnManager {
         }
         
         var node = view.getChildren().get(0);
-        System.out.println("Тип узла для обновления: " + node.getClass().getName());
         
-        if (node instanceof javafx.scene.shape.Circle circle) {
-            System.out.println("Обновляем Circle: isSelected=" + unit.isSelected());
+        // Обновляем цвет обводки для Polygon
+        if (node instanceof javafx.scene.shape.Polygon polygon) {
             if (unit.isSelected()) {
-                circle.setStroke(javafx.scene.paint.Color.WHITE);
-                circle.setStrokeWidth(4);
-                System.out.println("Установлена БЕЛАЯ обводка толщиной 4");
+                polygon.setStroke(javafx.scene.paint.Color.WHITE);
+                polygon.setStrokeWidth(4);
             } else {
-                circle.setStroke(javafx.scene.paint.Color.YELLOW);
-                circle.setStrokeWidth(2);
-                System.out.println("Установлена ЖЁЛТАЯ обводка толщиной 2");
+                polygon.setStroke(javafx.scene.paint.Color.YELLOW);
+                polygon.setStrokeWidth(2);
             }
         } else {
-            System.out.println("ОШИБКА: узел не Circle, а " + node.getClass().getName());
+            System.out.println("Предупреждение: узел не Polygon, а " + node.getClass().getName());
         }
     }
     

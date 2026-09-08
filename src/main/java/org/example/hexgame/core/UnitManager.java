@@ -2,8 +2,8 @@ package org.example.hexgame.core;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import org.example.hexgame.Entities.Unit;
-import org.example.hexgame.Entities.HexTile;
+import org.example.hexgame.entities.Unit;
+import org.example.hexgame.core.HexTile;
 import org.example.hexgame.ui.UnitSelectionDialog;
 
 import java.util.*;
