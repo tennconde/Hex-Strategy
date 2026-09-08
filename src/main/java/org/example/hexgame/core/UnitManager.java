@@ -20,6 +20,13 @@ public class UnitManager {
     public UnitManager(Map<String, HexTile> hexTiles) {
         this.hexTiles = hexTiles;
     }
+    
+    /**
+     * Получить игрока
+     */
+    public Unit getPlayerUnit() {
+        return playerUnit;
+    }
 
     // Создание игрока с выбором типа юнита
     public void spawnPlayerUnit(Runnable onUnitCreated) {

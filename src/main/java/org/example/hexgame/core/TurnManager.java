@@ -225,14 +225,24 @@ public class TurnManager {
      * Поиск юнита в указанной позиции
      */
     private Unit findUnitAtPosition(int q, int r) {
-        // В текущей реализации у нас только один юнит игрока
-        // В будущем можно расширить для поиска среди всех юнитов
+        // Проверяем текущего выбранного юнита
         if (selectedUnit != null && 
             selectedUnit.getQ() == q && 
             selectedUnit.getR() == r) {
             return selectedUnit;
         }
-        return null; // Пока заглушка, нужно будет расширить при добавлении списка юнитов
+        
+        // Ищем среди всех юнитов через unitManager
+        // В текущей реализации получаем игрока напрямую
+        Unit playerUnit = unitManager.getPlayerUnit();
+        if (playerUnit != null && 
+            playerUnit.getQ() == q && 
+            playerUnit.getR() == r &&
+            "player1".equals(playerUnit.getPlayerName())) {
+            return playerUnit;
+        }
+        
+        return null;
     }
     
     /**
