@@ -1,0 +1,12 @@
+/workspace/src/main/java/module-info.java
+/workspace/src/main/java/org/example/hexgame/Entities/CameraController.java
+/workspace/src/main/java/org/example/hexgame/Entities/HexTile.java
+/workspace/src/main/java/org/example/hexgame/Entities/Unit.java
+/workspace/src/main/java/org/example/hexgame/Entities/UnitMovementController.java
+/workspace/src/main/java/org/example/hexgame/HexStrategy.java
+/workspace/src/main/java/org/example/hexgame/core/HexGrid.java
+/workspace/src/main/java/org/example/hexgame/core/TerrainGenerator.java
+/workspace/src/main/java/org/example/hexgame/core/TurnManager.java
+/workspace/src/main/java/org/example/hexgame/core/UnitManager.java
+/workspace/src/main/java/org/example/hexgame/ui/GameUI.java
+/workspace/src/main/java/org/example/hexgame/ui/UnitSelectionDialog.java

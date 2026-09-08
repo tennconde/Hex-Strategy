@@ -101,7 +101,7 @@ public class HexStrategy extends GameApplication {
             return;
         }
         
-        // Получаем позицию курсора в мировых координатах
+        // Получаем позицию курсора в мировых координатах (уже с учётом камеры)
         var mousePos = FXGL.getInput().getMousePositionWorld();
         if (mousePos == null) {
             System.out.println("Позиция мыши null!");
@@ -110,16 +110,12 @@ public class HexStrategy extends GameApplication {
         
         System.out.println("Позиция мыши (world): " + mousePos);
         
-        // Преобразуем в экранные координаты с учётом камеры
-        var viewport = FXGL.getGameScene().getViewport();
-        double screenX = mousePos.getX() * viewport.getZoom() + viewport.getX();
-        double screenY = mousePos.getY() * viewport.getZoom() + viewport.getY();
-        
-        System.out.println("Экранные координаты: (" + screenX + ", " + screenY + ")");
-        
-        // Преобразуем в axial координаты гекса
-        int[] axialCoords = HexGrid.pixelToAxial(screenX - FXGL.getAppWidth() / 2, 
-                                                   screenY - FXGL.getAppHeight() / 2);
+        // Преобразуем мировые координаты напрямую в axial координаты гекса
+        // Смещение относительно центра экрана уже учтено в getMousePositionWorld()
+        int[] axialCoords = HexGrid.pixelToAxial(
+            mousePos.getX(), 
+            mousePos.getY()
+        );
         int q = axialCoords[0];
         int r = axialCoords[1];
         
