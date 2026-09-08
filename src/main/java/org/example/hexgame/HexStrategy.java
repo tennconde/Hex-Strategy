@@ -22,6 +22,7 @@ public class HexStrategy extends GameApplication {
     private CameraController cameraController = new CameraController();
     private GameUI gameUI = new GameUI();
     private UnitManager unitManager;
+    private TurnManager turnManager;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -38,6 +39,7 @@ public class HexStrategy extends GameApplication {
         createHexGrid();
 
         unitManager = new UnitManager(hexTiles);
+        turnManager = new TurnManager(hexTiles, unitManager);
 
         FXGL.runOnce(() -> {
             unitManager.spawnPlayerUnit(() -> {
@@ -46,9 +48,13 @@ public class HexStrategy extends GameApplication {
         }, javafx.util.Duration.seconds(1));
 
         gameUI.createUI();
-
-        // Убираем установку callback для перемещения, т.к. движения больше нет
-        // gameUI.setGameCallback(this::queueMovementCommand);
+        
+        // Устанавливаем callback для подтверждения перемещения
+        gameUI.setGameCallback(() -> {
+            if (turnManager.confirmMovement()) {
+                System.out.println("Перемещение подтверждено");
+            }
+        });
     }
 
     @Override
@@ -63,8 +69,51 @@ public class HexStrategy extends GameApplication {
         FXGL.onKeyDown(KeyCode.E, () -> cameraController.zoomCamera(0.9));
         FXGL.onKeyDown(KeyCode.R, () -> cameraController.resetCamera());
 
-        // Убираем обработчик кликов по гексу, если он был связан с перемещением
-        // FXGL.onBtnDown(MouseButton.PRIMARY, () -> handleHexClick());
+        // Обработчик клика мыши для выбора юнита и перемещения
+        FXGL.onBtnDown(MouseButton.PRIMARY, this::handleMouseClick);
+        
+        // Обработка клавиши Escape для отмены перемещения
+        FXGL.onKeyDown(KeyCode.ESCAPE, () -> {
+            if (turnManager != null) {
+                turnManager.cancelMovement();
+            }
+        });
+        
+        // Обработка кнопки завершения хода
+        FXGL.onKeyDown(KeyCode.SPACE, () -> {
+            if (turnManager != null && gameUI != null) {
+                turnManager.endPlayerTurn();
+            }
+        });
+    }
+    
+    /**
+     * Обработка клика мыши по игровому полю
+     */
+    private void handleMouseClick() {
+        if (turnManager == null || !turnManager.canInteract()) {
+            return;
+        }
+        
+        // Получаем позицию курсора в мировых координатах
+        var mousePos = FXGL.getInput().getMousePositionWorld();
+        if (mousePos == null) return;
+        
+        // Преобразуем в экранные координаты с учётом камеры
+        var viewport = FXGL.getGameScene().getViewport();
+        double screenX = mousePos.getX() * viewport.getZoom() + viewport.getX();
+        double screenY = mousePos.getY() * viewport.getZoom() + viewport.getY();
+        
+        // Преобразуем в axial координаты гекса
+        int[] axialCoords = HexGrid.pixelToAxial(screenX - FXGL.getAppWidth() / 2, 
+                                                   screenY - FXGL.getAppHeight() / 2);
+        int q = axialCoords[0];
+        int r = axialCoords[1];
+        
+        System.out.println("Клик по гексу: (" + q + ", " + r + ")");
+        
+        // Передаём координаты в TurnManager
+        turnManager.trySelectUnit(q, r);
     }
 
     private void createHexGrid() {
