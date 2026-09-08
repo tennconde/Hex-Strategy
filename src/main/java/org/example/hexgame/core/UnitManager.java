@@ -120,6 +120,10 @@ public class UnitManager {
         System.out.println("=== Конец создания визуального представления ===");
     }
 
+    public Unit getPlayerUnit() {
+        return playerUnit;
+    }
+
     // Получить стоимость перемещения для заданной клетки
     public int getMovementCostForTile(int q, int r) {
         String key = q + "," + r;
