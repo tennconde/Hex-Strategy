@@ -2,6 +2,7 @@ package org.example.hexgame.Entities;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.input.KeyCode;
+import javafx.geometry.Point2D;
 
 public class CameraController {
     
@@ -50,5 +51,16 @@ public class CameraController {
         
         // Здесь можно добавить плавное движение, если найдем правильные методы
         // Пока оставим для одиночных нажатий
+    }
+    
+    // Геттеры для доступа к позиции и зуму камеры
+    public Point2D getCameraOffset() {
+        var viewport = FXGL.getGameScene().getViewport();
+        return new Point2D(viewport.getX(), viewport.getY());
+    }
+    
+    public double getZoom() {
+        var viewport = FXGL.getGameScene().getViewport();
+        return viewport.getZoom();
     }
 }

@@ -59,6 +59,26 @@ public class Unit {
     public void setHealth(int health) {
         this.health = Math.max(0, Math.min(health, maxHealth));
     }
+    
+    // Очки движения
+    private int movePoints = 3;
+    private int maxMovePoints = 3;
+    
+    public boolean hasMovePoints(int cost) {
+        return movePoints >= cost;
+    }
+    
+    public void spendMovePoints(int cost) {
+        movePoints -= cost;
+    }
+    
+    public int getMovePoints() {
+        return movePoints;
+    }
+    
+    public void resetMovePoints() {
+        movePoints = maxMovePoints;
+    }
 
     public void takeDamage(int damage) {
         this.health = Math.max(0, this.health - damage);
