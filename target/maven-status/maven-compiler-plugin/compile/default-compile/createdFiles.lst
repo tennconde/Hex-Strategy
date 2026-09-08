@@ -1,0 +1,13 @@
+org/example/hexgame/HexStrategy.class
+org/example/hexgame/core/TerrainGenerator.class
+org/example/hexgame/ui/GameUI.class
+org/example/hexgame/core/HexGrid.class
+org/example/hexgame/Entities/HexTile.class
+module-info.class
+org/example/hexgame/ui/UnitSelectionDialog.class
+org/example/hexgame/Entities/Unit.class
+org/example/hexgame/core/TurnManager.class
+org/example/hexgame/core/UnitManager.class
+org/example/hexgame/Entities/UnitMovementController.class
+org/example/hexgame/core/UnitManager$PathNode.class
+org/example/hexgame/Entities/CameraController.class

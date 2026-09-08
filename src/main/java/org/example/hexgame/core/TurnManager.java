@@ -222,30 +222,6 @@ public class TurnManager {
     }
     
     /**
-     * Поиск юнита в указанной позиции
-     */
-    private Unit findUnitAtPosition(int q, int r) {
-        // Проверяем текущего выбранного юнита
-        if (selectedUnit != null && 
-            selectedUnit.getQ() == q && 
-            selectedUnit.getR() == r) {
-            return selectedUnit;
-        }
-        
-        // Ищем среди всех юнитов через unitManager
-        // В текущей реализации получаем игрока напрямую
-        Unit playerUnit = unitManager.getPlayerUnit();
-        if (playerUnit != null && 
-            playerUnit.getQ() == q && 
-            playerUnit.getR() == r &&
-            "player1".equals(playerUnit.getPlayerName())) {
-            return playerUnit;
-        }
-        
-        return null;
-    }
-    
-    /**
      * Обновление визуального представления юнита (цвета выделения)
      */
     private void updateUnitVisual(Unit unit) {
@@ -312,6 +288,57 @@ public class TurnManager {
      */
     public boolean canInteract() {
         return isPlayerTurn && !isMoving;
+    }
+    
+    // Публичные геттеры для отладки
+    public boolean isPlayerTurn() {
+        return isPlayerTurn;
+    }
+    
+    public boolean isMoving() {
+        return isMoving;
+    }
+    
+    /**
+     * Поиск юнита в указанной позиции (публичный метод для отладки)
+     */
+    public Unit findUnitAtPosition(int q, int r) {
+        return findUnitAtPositionInternal(q, r);
+    }
+    
+    /**
+     * Поиск юнита в указанной позиции
+     */
+    private Unit findUnitAtPositionInternal(int q, int r) {
+        System.out.println("Поиск юнита на позиции: (" + q + ", " + r + ")");
+        
+        // Проверяем текущего выбранного юнита
+        if (selectedUnit != null && 
+            selectedUnit.getQ() == q && 
+            selectedUnit.getR() == r) {
+            System.out.println("Найден выбранный юнит: " + selectedUnit);
+            return selectedUnit;
+        }
+        
+        // Ищем среди всех юнитов через unitManager
+        // В текущей реализации получаем игрока напрямую
+        Unit playerUnit = unitManager.getPlayerUnit();
+        System.out.println("playerUnit из UnitManager: " + playerUnit);
+        if (playerUnit != null) {
+            System.out.println("playerUnit позиция: (" + playerUnit.getQ() + ", " + playerUnit.getR() + ")");
+            System.out.println("playerUnit игрок: " + playerUnit.getPlayerName());
+        }
+        
+        if (playerUnit != null && 
+            playerUnit.getQ() == q && 
+            playerUnit.getR() == r &&
+            "player1".equals(playerUnit.getPlayerName())) {
+            System.out.println("Найден playerUnit: " + playerUnit);
+            return playerUnit;
+        }
+        
+        System.out.println("Юнит не найден на позиции (" + q + ", " + r + ")");
+        return null;
     }
     
     /**
