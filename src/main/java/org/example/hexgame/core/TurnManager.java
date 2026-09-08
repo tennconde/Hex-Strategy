@@ -226,21 +226,32 @@ public class TurnManager {
      */
     private void updateUnitVisual(Unit unit) {
         if (unit.getEntity() == null || unit.getEntity().getViewComponent() == null) {
+            System.out.println("ОШИБКА updateUnitVisual: entity или viewComponent null!");
             return;
         }
         
         var view = unit.getEntity().getViewComponent();
-        if (view.getChildren().isEmpty()) return;
+        if (view.getChildren().isEmpty()) {
+            System.out.println("ОШИБКА updateUnitVisual: нет детей в viewComponent!");
+            return;
+        }
         
         var node = view.getChildren().get(0);
+        System.out.println("Тип узла для обновления: " + node.getClass().getName());
+        
         if (node instanceof javafx.scene.shape.Circle circle) {
+            System.out.println("Обновляем Circle: isSelected=" + unit.isSelected());
             if (unit.isSelected()) {
                 circle.setStroke(javafx.scene.paint.Color.WHITE);
                 circle.setStrokeWidth(4);
+                System.out.println("Установлена БЕЛАЯ обводка толщиной 4");
             } else {
                 circle.setStroke(javafx.scene.paint.Color.YELLOW);
                 circle.setStrokeWidth(2);
+                System.out.println("Установлена ЖЁЛТАЯ обводка толщиной 2");
             }
+        } else {
+            System.out.println("ОШИБКА: узел не Circle, а " + node.getClass().getName());
         }
     }
     
