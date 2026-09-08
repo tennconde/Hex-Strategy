@@ -91,18 +91,31 @@ public class HexStrategy extends GameApplication {
      * Обработка клика мыши по игровому полю
      */
     private void handleMouseClick() {
-        if (turnManager == null || !turnManager.canInteract()) {
+        if (turnManager == null) {
+            System.out.println("TurnManager ещё не инициализирован!");
+            return;
+        }
+        
+        if (!turnManager.canInteract()) {
+            System.out.println("Нельзя взаимодействовать: isPlayerTurn=" + turnManager.isPlayerTurn() + ", isMoving=" + turnManager.isMoving());
             return;
         }
         
         // Получаем позицию курсора в мировых координатах
         var mousePos = FXGL.getInput().getMousePositionWorld();
-        if (mousePos == null) return;
+        if (mousePos == null) {
+            System.out.println("Позиция мыши null!");
+            return;
+        }
+        
+        System.out.println("Позиция мыши (world): " + mousePos);
         
         // Преобразуем в экранные координаты с учётом камеры
         var viewport = FXGL.getGameScene().getViewport();
         double screenX = mousePos.getX() * viewport.getZoom() + viewport.getX();
         double screenY = mousePos.getY() * viewport.getZoom() + viewport.getY();
+        
+        System.out.println("Экранные координаты: (" + screenX + ", " + screenY + ")");
         
         // Преобразуем в axial координаты гекса
         int[] axialCoords = HexGrid.pixelToAxial(screenX - FXGL.getAppWidth() / 2, 
@@ -111,6 +124,22 @@ public class HexStrategy extends GameApplication {
         int r = axialCoords[1];
         
         System.out.println("Клик по гексу: (" + q + ", " + r + ")");
+        
+        // Проверяем, есть ли тайл в этой позиции
+        String key = q + "," + r;
+        if (hexTiles.containsKey(key)) {
+            System.out.println("Тайл найден: " + hexTiles.get(key));
+        } else {
+            System.out.println("Тайл НЕ найден для ключа: " + key);
+        }
+        
+        // Проверяем, есть ли юнит в этой позиции
+        Unit unitAtPos = turnManager.findUnitAtPosition(q, r);
+        if (unitAtPos != null) {
+            System.out.println("Юнит найден на позиции: " + unitAtPos);
+        } else {
+            System.out.println("Юнит НЕ найден на позиции (" + q + ", " + r + ")");
+        }
         
         // Передаём координаты в TurnManager
         turnManager.trySelectUnit(q, r);
