@@ -4,13 +4,13 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.scene.input.MouseButton;
-import org.example.hexgame.Entities.Unit;
+import org.example.hexgame.entities.Unit;
 import org.example.hexgame.core.*;
 import org.example.hexgame.ui.GameUI;
 import com.almasb.fxgl.localization.Language;
 import javafx.scene.input.KeyCode;
-import org.example.hexgame.Entities.CameraController;
-import org.example.hexgame.Entities.HexTile;
+import org.example.hexgame.entities.CameraController;
+import org.example.hexgame.core.HexTile;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;

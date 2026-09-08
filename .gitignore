@@ -1,1 +1,32 @@
-(src/main/java/org/example/hexgame/HexStrategy.java)
+```
+# Compiled and build artifacts
+*.class
+target/
+
+# Maven specific
+target/maven-status/
+
+# Dependencies
+.mypy_cache/
+.pytest_cache/
+coverage/
+htmlcov/
+.gradle/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+```

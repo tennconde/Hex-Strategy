@@ -3,8 +3,8 @@ package org.example.hexgame.core;
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
-import org.example.hexgame.Entities.HexTile;
-import org.example.hexgame.Entities.Unit;
+import org.example.hexgame.core.HexTile;
+import org.example.hexgame.entities.Unit;
 
 import java.util.List;
 import java.util.Map;
@@ -226,21 +226,29 @@ public class TurnManager {
      */
     private void updateUnitVisual(Unit unit) {
         if (unit.getEntity() == null || unit.getEntity().getViewComponent() == null) {
+            System.out.println("ОШИБКА updateUnitVisual: entity или viewComponent null!");
             return;
         }
         
         var view = unit.getEntity().getViewComponent();
-        if (view.getChildren().isEmpty()) return;
+        if (view.getChildren().isEmpty()) {
+            System.out.println("ОШИБКА updateUnitVisual: нет детей в viewComponent!");
+            return;
+        }
         
         var node = view.getChildren().get(0);
-        if (node instanceof javafx.scene.shape.Circle circle) {
+        
+        // Обновляем цвет обводки для Polygon
+        if (node instanceof javafx.scene.shape.Polygon polygon) {
             if (unit.isSelected()) {
-                circle.setStroke(javafx.scene.paint.Color.WHITE);
-                circle.setStrokeWidth(4);
+                polygon.setStroke(javafx.scene.paint.Color.WHITE);
+                polygon.setStrokeWidth(4);
             } else {
-                circle.setStroke(javafx.scene.paint.Color.YELLOW);
-                circle.setStrokeWidth(2);
+                polygon.setStroke(javafx.scene.paint.Color.YELLOW);
+                polygon.setStrokeWidth(2);
             }
+        } else {
+            System.out.println("Предупреждение: узел не Polygon, а " + node.getClass().getName());
         }
     }
     
